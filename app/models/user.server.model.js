@@ -59,6 +59,21 @@ var UserSchema = new Schema({
 		default: '',
 		validate: [validateLocalStrategyPassword, 'Password should be longer']
 	},
+	gender: {
+		type: String
+	},
+	phone_nmber: {
+		type: String
+	},
+	office: {
+		type: String
+	},
+	category: {
+		type: String
+	},
+	guarantor: {
+		type: String
+	},
 	salt: {
 		type: String
 	},
