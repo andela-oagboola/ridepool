@@ -47,6 +47,17 @@ module.exports = {
   });
  },
 
+ getRideByUser: function (req,res) {
+  Ride.find({'created_by': req.params.userId}, function(err, rides) {
+    if(err) {
+      res.json(err);
+    }
+    else {
+      res.json(rides);
+    }
+  });
+ },
+
  editRide: function (req, res) {
   Ride.findByIdAndUpdate(req.params.rideId, req.body, function (err, ride) {
     if (err) {
