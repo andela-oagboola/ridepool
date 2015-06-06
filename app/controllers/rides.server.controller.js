@@ -3,7 +3,7 @@ var Ride = require('./../models/rides.server.model');
 
 module.exports = {
  //create ride
- addRide: function (req, res) {
+ create: function (req, res) {
   Ride.create(req.body, function (err, ride) {
     if (err) {
       res.json(err);
@@ -14,7 +14,7 @@ module.exports = {
   });
  },
 
- getRides: function (req, res) {
+ get: function (req, res) {
   Ride.find({}, function (err, rides) {
     if (err) {
       res.json(err);
@@ -25,7 +25,7 @@ module.exports = {
   });
  },
 
- deleteRide: function(req, res) {
+ delete: function(req, res) {
   Ride.delete({'_id': req.params.rideId}, function(err, res) {
     if (err) {
       res.json(err);
@@ -58,7 +58,7 @@ module.exports = {
   });
  },
 
- editRide: function (req, res) {
+ edit: function (req, res) {
   Ride.findByIdAndUpdate(req.params.rideId, req.body, function (err, ride) {
     if (err) {
       res.json(err);
