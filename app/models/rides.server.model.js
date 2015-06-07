@@ -23,6 +23,9 @@ var RideSchema = new Schema({
   },
   price: {
     type: Number
-  }
+  },
+  booked_by: [{
+    
+  }]
 });
 module.exports = mongoose.model('Rides', RideSchema);
