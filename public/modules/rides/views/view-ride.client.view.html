@@ -1,0 +1,8 @@
+<div>
+  <p>From: {{ride.origin}}</p>
+  <p>To: {{ride.destination}}</p>
+  <p>By: {{ride.departure_time}}</p>
+  <p>for: {{ride.price}} naira</p>
+  <p>Available seats: {{ride.seat_number}}</p>
+  <a ng-click="bookRide()"><input type="button" value="book" ng-disabled="{{ride.seat_number==0}}"></a>
+</div>

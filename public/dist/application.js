@@ -284,14 +284,22 @@ angular.module('rides').config(['$stateProvider', function ($stateProvider) {
     url: '/rides',
     templateUrl: 'modules/rides/views/allrides.client.view.html',
     controller: 'allRidesCtrl'
+  })
+  .state('viewRide', {
+    url: '/rides/:rideId',
+    templateUrl: 'modules/rides/views/view-ride.client.view.html',
+    controller: 'viewRideCtrl'
   });
 }]);
 'use strict';
 angular.module('rides').controller('allRidesCtrl', ['$scope', 'backendService', function($scope, backendService){
-  console.log('yay');
   backendService.getRides().success(function (res) {
-    console.log(res);
+    $scope.rides = res;
   });
+}]);
+'use strict';
+angular.module('rides').controller('viewRideCtrl', ['$scope', function($scope){
+  console.log('ajkds');
 }]);
 'use strict';
 angular.module('rides').factory('backendService', ['$http', function($http){
