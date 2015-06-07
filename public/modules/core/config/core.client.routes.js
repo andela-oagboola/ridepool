@@ -13,8 +13,9 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 			templateUrl: 'modules/core/views/home.client.view.html'
 		})
 		.state('userRides', {
-			url: '/rides/user/:uderId',
-			templateUrl: 'modules/core/views/userRides.client.view.html'
+			url: '/rides/user/:userId',
+			templateUrl: 'modules/rides/views/userRides.client.view.html',
+			controller: 'UserRidesCtrl'
 		});
 	}
 ]);

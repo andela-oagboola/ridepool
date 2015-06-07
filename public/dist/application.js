@@ -66,6 +66,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 		state('home', {
 			url: '/',
 			templateUrl: 'modules/core/views/home.client.view.html'
+		})
+		.state('userRides', {
+			url: '/rides/user/:userId',
+			templateUrl: 'modules/rides/views/userRides.client.view.html',
+			controller: 'UserRidesCtrl'
 		});
 	}
 ]);
@@ -298,14 +303,46 @@ angular.module('rides').controller('allRidesCtrl', ['$scope', 'backendService', 
   });
 }]);
 'use strict';
-angular.module('rides').controller('viewRideCtrl', ['$scope', function($scope){
-  console.log('ajkds');
+angular.module('rides').controller('UserRidesCtrl', ['$scope', function($scope){
+  console.log('ejk');
+}]);
+'use strict';
+angular.module('rides').controller('viewRideCtrl', ['$scope', 'Authentication', '$stateParams', 'backendService', function($scope, Authentication, $stateParams, backendService){
+
+  var getRide = function () {
+    backendService.getUniqueRide($stateParams.rideId).success(function (res) {
+      $scope.ride = res[0];
+    });
+  };
+  getRide();
+  $scope.bookRide = function () {
+    console.log('hjs');
+    // var response = confirm('book ride?');
+    // if (response === true) {
+    //   $scope.booking = {
+    //     ride: $scope.ride._id,
+    //     booked_by: Authentication.user._id
+    //   };
+    //   backendService.bookRide($scope.booking).success(function (res) {
+    //     alert('Ride has been booked, await confirmation');
+    //     getRide();
+    //   });
+    // }
+  };
 }]);
 'use strict';
 angular.module('rides').factory('backendService', ['$http', function($http){
   return {
     getRides: function () {
       return $http.get('/rides');
+    },
+
+    getUniqueRide: function (rideId) {
+      return $http.get('/rides/' + rideId);
+    },
+
+    bookRide: function (booking) {
+      return $http.post('/bookings', booking);
     }
   };
 }]);

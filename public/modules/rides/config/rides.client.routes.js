@@ -10,5 +10,9 @@ angular.module('rides').config(['$stateProvider', function ($stateProvider) {
     url: '/rides/:rideId',
     templateUrl: 'modules/rides/views/view-ride.client.view.html',
     controller: 'viewRideCtrl'
+  })
+  .state('viewBookings', {
+    url: '/rides/:rideId/bookings',
+    templateUrl: 'modules/rides/views/viewBookings.client.view.html',
   });
 }]);

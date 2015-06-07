@@ -30,12 +30,21 @@ module.exports = {
  },
 
  delete: function(req, res) {
-  Booking.delete({'_id': req.params.bookingId}, function(err, res) {
+  Booking.findByIdAndRemove(req.params.bookingId, function(err, response) {
     if (err) {
       res.json(err);
     }
     else {
-      res.json(res);
+      console.log('deleted booking', response);
+      Ride.findByIdAndUpdate(response.ride, {$inc: {seat_number: 1}}, function (err, result) {
+        if (err) {
+          console.log('error updating ride');
+        }
+        else {
+          console.log('updated ride');
+        }
+      });
+      res.json(response);
     }
   });
  },
@@ -52,7 +61,7 @@ module.exports = {
  },
 
  getBookingByUser: function (req,res) {
-  Booking.find({'created_by': req.params.userId}, function(err, bookings) {
+  Booking.find({'booked_by': req.params.userId}, function(err, bookings) {
     if(err) {
       res.json(err);
     }
