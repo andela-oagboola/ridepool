@@ -66,6 +66,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 		state('home', {
 			url: '/',
 			templateUrl: 'modules/core/views/home.client.view.html'
+		})
+		.state('userRides', {
+			url: '/rides/user/:userId',
+			templateUrl: 'modules/rides/views/userRides.client.view.html',
+			controller: 'UserRidesCtrl'
 		});
 	}
 ]);
@@ -289,6 +294,11 @@ angular.module('rides').config(['$stateProvider', function ($stateProvider) {
     url: '/rides/:rideId',
     templateUrl: 'modules/rides/views/view-ride.client.view.html',
     controller: 'viewRideCtrl'
+  })
+  .state('viewBookings', {
+    url: '/rides/:rideId/bookings',
+    templateUrl: 'modules/rides/views/viewBookings.client.view.html',
+    controller: 'ViewBookingsCtrl'
   });
 }]);
 'use strict';
@@ -298,14 +308,105 @@ angular.module('rides').controller('allRidesCtrl', ['$scope', 'backendService', 
   });
 }]);
 'use strict';
-angular.module('rides').controller('viewRideCtrl', ['$scope', function($scope){
-  console.log('ajkds');
+angular.module('rides').controller('UserRidesCtrl', ['$scope', 'backendService', 'Authentication', function($scope, backendService, Authentication){
+  $scope.user = Authentication.user;
+
+  var getUserRides = function () {
+    backendService.getUserRides($scope.user._id).success(function (res) {
+      console.log('rides created by user', res);
+      $scope.myRides = res;
+    });
+  };
+  getUserRides();
+
+  var getUserBookings = function () {
+    backendService.getBookingsByUser($scope.user._id).success(function (response) {
+      console.log('rides i booked', response);
+      $scope.myBookings = response;
+    });
+  };
+  getUserBookings();
+
+  $scope.deleteRide = function (index) {
+    var response = confirm('Are you sure?');
+    console.log($scope.myRides[index]);
+    if(response === true) {
+      $scope.selectedRide = $scope.myRides[index];
+      backendService.deleteRide($scope.selectedRide._id).success(function (result) {
+        console.log(result);
+        alert('ride has been deleted');
+        getUserRides();
+      });
+    }
+  };
+
+  $scope.cancelRide = function (index) {
+    var selectedBooking = $scope.myBookings[index];
+    var confirmation = confirm('sure?');
+    if(confirmation === true) {
+      backendService.cancelBooking(selectedBooking._id).success(function (idahun) {
+        console.log(idahun);
+        alert('ride has been cancelled');
+        getUserBookings();
+      });
+    }
+  };
+}]);
+'use strict';
+angular.module('rides').controller('viewRideCtrl', ['$scope', 'Authentication', '$stateParams', 'backendService', function($scope, Authentication, $stateParams, backendService){
+
+  var getRide = function () {
+    backendService.getUniqueRide($stateParams.rideId).success(function (res) {
+      $scope.ride = res[0];
+    });
+  };
+  getRide();
+  $scope.bookRide = function () {
+    var response = confirm('book ride?');
+    if (response === true) {
+      $scope.booking = {
+        ride: $scope.ride._id,
+        booked_by: Authentication.user._id
+      };
+      backendService.bookRide($scope.booking).success(function (res) {
+        alert('Ride has been booked, await confirmation');
+        getRide();
+      });
+    }
+  };
+}]);
+angular.module('rides').controller('ViewBookingsCtrl', ['$scope', function ($scope) {
+  console.log('hurray');
 }]);
 'use strict';
 angular.module('rides').factory('backendService', ['$http', function($http){
   return {
     getRides: function () {
       return $http.get('/rides');
+    },
+
+    getUniqueRide: function (rideId) {
+      return $http.get('/rides/' + rideId);
+    },
+
+    bookRide: function (booking) {
+      return $http.post('/bookings', booking);
+    },
+
+    getUserRides: function (userId) {
+      return $http.get('/rides/user/' + userId);
+    },
+
+    getBookingsByUser: function (userId) {
+      return $http.get('/bookings/user/' + userId);
+    },
+
+    deleteRide: function (rideId) {
+      return $http.delete('/rides/' + rideId);
+    },
+
+    cancelBooking: function(bookingId) {
+      return $http.delete('/bookings/' + bookingId);
     }
   };
 }]);

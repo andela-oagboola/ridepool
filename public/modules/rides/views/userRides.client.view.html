@@ -1,0 +1,19 @@
+<div class="rwo">
+  <div class="col-md-6">Rides I created
+    <div ng-repeat="ride in myRides">
+      <p>From: {{ride.origin}}</p>
+      <p>To: {{ride.destination}}</p>
+      <p>Created on: {{ride.created_at | date}}</p>
+      <button ng-click="deleteRide($index)">Delete Ride</button>
+      <a href="/#!/rides/{{ride._id}}/bookings"><button>View bookings</button></a>
+    </div>
+  </div>
+  <div class="col-md-6">Rides I booked
+    <div ng-repeat="booking in myBookings">
+      <p>Ride:{{booking.ride}}</p>
+      <p>Status:{{booking.status}}</p>
+      <p>on:{{booking.booked_at | date}}</p>
+      <button ng-click="cancelRide($index)">Cancel ride</button>
+    </div>
+  </div>
+</div>

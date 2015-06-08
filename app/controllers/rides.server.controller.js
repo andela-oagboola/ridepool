@@ -1,5 +1,6 @@
 'use strict';
 var Ride = require('./../models/rides.server.model');
+var Booking = require('./../models/bookings.server.model');
 
 module.exports = {
  //create ride
@@ -26,11 +27,13 @@ module.exports = {
  },
 
  delete: function(req, res) {
-  Ride.delete({'_id': req.params.rideId}, function(err, res) {
+  var rideId = req.params.rideId;
+  Ride.remove({'_id': rideId}, function(err, res) {
     if (err) {
       res.json(err);
     }
     else {
+      Booking.remove({'ride': rideId}, function (err, affected) {});
       res.json(res);
     }
   });

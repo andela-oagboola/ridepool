@@ -8,17 +8,16 @@ angular.module('rides').controller('viewRideCtrl', ['$scope', 'Authentication', 
   };
   getRide();
   $scope.bookRide = function () {
-    console.log('hjs');
-    // var response = confirm('book ride?');
-    // if (response === true) {
-    //   $scope.booking = {
-    //     ride: $scope.ride._id,
-    //     booked_by: Authentication.user._id
-    //   };
-    //   backendService.bookRide($scope.booking).success(function (res) {
-    //     alert('Ride has been booked, await confirmation');
-    //     getRide();
-    //   });
-    // }
+    var response = confirm('book ride?');
+    if (response === true) {
+      $scope.booking = {
+        ride: $scope.ride._id,
+        booked_by: Authentication.user._id
+      };
+      backendService.bookRide($scope.booking).success(function (res) {
+        alert('Ride has been booked, await confirmation');
+        getRide();
+      });
+    }
   };
 }]);

@@ -11,6 +11,11 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 		state('home', {
 			url: '/',
 			templateUrl: 'modules/core/views/home.client.view.html'
+		})
+		.state('userRides', {
+			url: '/rides/user/:userId',
+			templateUrl: 'modules/rides/views/userRides.client.view.html',
+			controller: 'UserRidesCtrl'
 		});
 	}
 ]);
