@@ -27,6 +27,10 @@ angular.module('rides').factory('backendService', ['$http', function($http){
 
     cancelBooking: function(bookingId) {
       return $http.delete('/bookings/' + bookingId);
+    },
+
+    getBookingsByRide: function(rideId) {
+      return $http.get('/bookings/ride/' + rideId);
     }
   };
 }]);

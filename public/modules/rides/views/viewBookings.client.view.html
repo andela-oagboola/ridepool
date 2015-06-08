@@ -1,1 +1,7 @@
-dsjjdjsakdsajk
+<div ng-repeat="booking in bookings">
+  <p>This ride was booked by</p>
+  <p>{{booking.booked_by}}</p>
+  <p>On {{booking.booked_at | date}}</p>
+  <button>Accept booking</button>
+  <button>Reject Booking</button>
+</div>

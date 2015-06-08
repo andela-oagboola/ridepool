@@ -71,6 +71,17 @@ module.exports = {
   });
  },
 
+ getRideBooking: function (req,res) {
+  Booking.find({'ride': req.params.rideId}, function(err, bookings) {
+    if(err) {
+      res.json(err);
+    }
+    else {
+      res.json(bookings);
+    }
+  });
+ },
+
  edit: function (req, res) {
   Booking.findByIdAndUpdate(req.params.bookingId, req.body, function (err, booking) {
     if (err) {

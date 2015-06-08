@@ -12,4 +12,5 @@ module.exports = function (app) {
     .delete(booking.delete);
     
   app.route('/bookings/user/:userId').get(booking.getBookingByUser);
+  app.route('/bookings/ride/:rideId').get(booking.getRideBooking);
 };
